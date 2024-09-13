@@ -67,6 +67,43 @@ app.get("/getBooks/:id", async (request, response) => {
   }
 });
 
+//ROUTE: Update selected book's detail
+app.put("/getBooks/:id", async (request, response) => {
+  try {
+    if (
+      !request.body.title ||
+      !request.body.author ||
+      !request.body.publishYear
+    ) {
+      return response.status(400).send({
+        message: `Send all required fields: title, author, publishYear`,
+      });
+    }
+    const { id } = request.params;
+    const result = await Book.findByIdAndUpdate(id, request.body);
+    if (!result) {
+      return response.status(404).send({ message: `Book not found` });
+    }
+    return response.status(200).send({ message: `Updated ${id} successfully` });
+  } catch (error) {
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// ROUTE: Delete selected book
+app.delete("/getBooks/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Book.findByIdAndDelete(id);
+    if (!result) {
+      return response.status(404).send({ message: `Book not found` });
+    }
+    return response.status(200).send({ message: `Deleted ${id} successfully` });
+  } catch (error) {
+    return response.status(500).send({ message: error.message });
+  }
+});
+
 // Attempt to connect DB + port
 mongoose
   // .connect(mongoDBURL, {
