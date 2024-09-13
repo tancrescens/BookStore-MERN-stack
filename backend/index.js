@@ -13,7 +13,7 @@ app.get("/", (request, response) => {
   return response.status(234).send("Welcome to the bookstore!");
 });
 
-// CREATE a new Book in MongoDB
+// ROUTE: Create a new Book in MongoDB
 app.post("/newBook", async (request, response) => {
   try {
     if (
@@ -32,19 +32,49 @@ app.post("/newBook", async (request, response) => {
       publishYear: request.body.publishYear,
     };
     const book = await Book.create(newBook);
+    return response.status(200).json(book);
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
 
+// ROUTE: Read and get ALL books
+app.get("/getBooks", async (request, response) => {
+  try {
+    // .find({}) gets all books from database
+    const bookList = await Book.find({});
+    return response.status(200).json({
+      count: bookList.length,
+      data: bookList,
+    });
+  } catch (error) {
+    response.status(500).send({ message: error.message });
+  }
+});
+// ROUTE: Read and get SELECTED book
+app.get("/getBooks/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const selectedBooks = await Book.findById(id);
+
+    return response.status(200).json({
+      count: selectedBooks.length,
+      data: selectedBooks,
+    });
+  } catch (error) {
+    response.status(500).send({ message: error.message });
+  }
+});
+
 // Attempt to connect DB + port
 mongoose
-  .connect(mongoDBURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: "books-collection",
-  })
+  // .connect(mongoDBURL, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  //   dbName: "books-collection",
+  // })
+  .connect(mongoDBURL)
   .then(() => {
     // attempt to connect to database
     console.log(`App(express, backend) is connected to the database`);
