@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-export const bookSchema = mongoose.Schema(
+const bookSchema = mongoose.Schema(
   {
     title: {
       type: String,
