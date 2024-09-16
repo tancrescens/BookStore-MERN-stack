@@ -15,11 +15,11 @@ function Home() {
       .get("http://localhost:5555/books")
       .then((response) => {
         setBooks(response.data.data);
-        setLoading(true);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setLoading(true);
+        setLoading(false);
       });
   }, []);
 
