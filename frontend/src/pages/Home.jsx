@@ -49,7 +49,7 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            {books.map((book, index) => {
+            {books.map((book, index) => (
               <tr key={book._id} className="h-8">
                 <td className="border border-slate-700 rounded-md text-center">
                   {index + 1}
@@ -66,18 +66,18 @@ function Home() {
                 <td className="border border-slate-700 rounded-md text-center">
                   <div className="flex justify-center gap-x-4">
                     <Link to={`/books/details/${book._id}`}>
-                      <BsInfoCircle classname="text-2xl text-green-800" />
+                      <BsInfoCircle className="text-2xl text-green-800" />
                     </Link>
                     <Link to={`/books/edit/${book._id}`}>
-                      <AiOutlineEdit classname="text-2xl text-yellow-600" />
+                      <AiOutlineEdit className="text-2xl text-yellow-600" />
                     </Link>
                     <Link to={`/books/delete/${book._id}`}>
-                      <MdOutlineDelete classname="text-2xl text-red-600" />
+                      <MdOutlineDelete className="text-2xl text-red-600" />
                     </Link>
                   </div>
                 </td>
-              </tr>;
-            })}
+              </tr>
+            ))}
           </tbody>
         </table>
       )}
