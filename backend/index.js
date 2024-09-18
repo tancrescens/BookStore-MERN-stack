@@ -1,11 +1,12 @@
 import express from "express";
-import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Book } from "./models/bookModels.js";
 import booksRoute from "./routes/booksRoute.js";
 import cors from "cors";
+import dotenv from "dotenv";
 
 const app = express();
+dotenv.config();
 
 // Middleware for parsing request body
 app.use(express.json());
@@ -43,19 +44,21 @@ mongoose
   //   useUnifiedTopology: true,
   //   dbName: "books-collection",
   // })
-  .connect(mongoDBURL)
+  .connect(process.env.mongoDBURL)
   .then(() => {
     // attempt to connect to database
     console.log(`App(express, backend) is connected to the database`);
     // attempt to listen to specified port (found in config.js)
     try {
-      app.listen(PORT, () => {
-        console.log(`App(express, backend) is listening on port: ${PORT}`);
+      app.listen(process.env.PORT, () => {
+        console.log(
+          `App(express, backend) is listening on port: ${process.env.PORT}`
+        );
       });
     } catch (error) {
       console.log(error);
     }
   })
-  .catch(() => {
+  .catch((error) => {
     console.log(error);
   });
